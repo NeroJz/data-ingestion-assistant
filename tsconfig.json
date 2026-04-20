@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",       /* Specify ECMAScript target version */
+    "module": "CommonJS", 
+    "types": ["node"],     /* Specify module code generation for Node.js */
+    "strict": true,     
+    "skipLibCheck": true,       /* Enable all strict type-checking options */
+    "esModuleInterop": true,   /* Helps with compatibility between CommonJS and ES Modules */
+    "outDir": "./dist",        /* Redirect output structure to the 'dist' directory */
+    "rootDir": "./src"         /* Specify the root directory of input files as 'src' */
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/tests"]
+}
