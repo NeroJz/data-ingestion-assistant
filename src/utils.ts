@@ -5,8 +5,7 @@ type CsvRow = Record<string, string>;
 
 type Result = {
   headers: string[];
-  first: CsvRow[];
-  last: CsvRow[];
+  samples: CsvRow[];
 };
 
 /**
@@ -44,8 +43,7 @@ export const csvToJson = async (
       .on('end', () => {
         resolve({
           headers,
-          first: firstNRows,
-          last: lastNRows,
+          samples: [...firstNRows, ...lastNRows]
         });
       })
       .on('error', reject);
