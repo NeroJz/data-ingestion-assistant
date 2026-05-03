@@ -1,20 +1,21 @@
 import path from 'node:path';
-import { csvToJson } from './utils';
-import infer_schema_node from './chains/infer.chain';
-
+import Graph from './chains/graph';
+import fs from 'node:fs/promises';
 
 async function run() {
-
+  // const drawableGraph = await Graph.getGraphAsync();
+  // if (drawableGraph) {
+  //   const image = await drawableGraph.drawMermaidPng();
+  //   const imageBuffer = new Uint8Array(await image.arrayBuffer());
+  //   await fs.writeFile('graph.png', imageBuffer);
+  // }
   let filePath = path.join(process.cwd(), 'data', 'salaries_2023.csv');
 
-  const {
-    headers,
-    samples,
-  }: { headers: any, samples: any[] } = await csvToJson(filePath, 10);
+  const result = await Graph.invoke({
+    filePath
+  });
 
-  const result = await infer_schema_node({ samples: samples });
-
-  console.log(result.schema);
+  console.log(result);
 }
 
 

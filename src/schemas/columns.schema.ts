@@ -9,7 +9,7 @@ const ColumnScehma = z.object({
 
 
 const ColumnsScehma = z.object({
-  columns: z.array(ColumnScehma).describe(`List of columns`),
+  schema_columns: z.array(ColumnScehma).describe(`List of columns`),
 });
 
 

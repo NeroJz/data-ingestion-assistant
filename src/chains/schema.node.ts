@@ -1,6 +1,7 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
 import ColumnsScehma from '../schemas/columns.schema';
+import { State } from './graph';
 
 const llm = new ChatOpenAI({
   model: 'gpt-4o-mini'
@@ -25,18 +26,17 @@ let infer_prompt_template = ChatPromptTemplate
   ]);
 
 
-const infer_schema_node = async (state: any) => {
-
+const schema_node = async (state: State) => {
   const messages = await infer_prompt_template
     .formatMessages({
-      samples: JSON.stringify(state.samples)
+      samples: JSON.stringify(state.csv_sample.samples)
     });
 
   const result = await llm.invoke(messages);
 
   return {
-    schema: result
+    ...result
   };
 };
 
-export default infer_schema_node;
+export default schema_node;
