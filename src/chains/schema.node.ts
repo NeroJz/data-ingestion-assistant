@@ -1,7 +1,21 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
-import ColumnsScehma from '../schemas/columns.schema';
+import { z } from 'zod'
+
 import { State } from './graph';
+
+
+const ColumnScehma = z.object({
+  name: z.string().describe(`Name of the column`),
+  type: z.enum(['string', 'number', 'date']).describe(`Data type of column`),
+  nullable: z.boolean().describe(`Allowing null`)
+});
+
+
+const ColumnsScehma = z.object({
+  schema_columns: z.array(ColumnScehma).describe(`List of columns`),
+});
+
 
 const llm = new ChatOpenAI({
   model: 'gpt-4o-mini'
