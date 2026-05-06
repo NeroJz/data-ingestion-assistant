@@ -3,6 +3,7 @@ import { nullable, z } from 'zod';
 import inspect_node from './inspect.node';
 import schema_node from './schema.node';
 import validation_node from './validate.node';
+import sql_node from './sql.node';
 
 const AppState = new StateSchema({
   filePath: z.string().describe(`File path for the csv file to be read`),
@@ -22,6 +23,8 @@ const AppState = new StateSchema({
       severity: z.enum(['low', 'medium', 'high']).describe(`Severity level of the issue: low (minor), medium (affects usability), high (break the process or causes of errors)`)
     }),
   ),
+  create_table: z.string().describe(`SQL statement for creating table`),
+  insert_strategy: z.string().describe(`Strategy`)
 });
 
 export type State = typeof AppState.State;
@@ -32,10 +35,12 @@ builder
   .addNode('inspect', inspect_node)
   .addNode('schema', schema_node)
   .addNode('validate', validation_node)
+  .addNode('sql', sql_node)
   .addEdge(START, 'inspect')
   .addEdge('inspect', 'schema')
   .addEdge('schema', 'validate')
-  .addEdge('validate', END);
+  .addEdge('validate', 'sql')
+  .addEdge('sql', END);
 
 const Graph = builder.compile();
 
